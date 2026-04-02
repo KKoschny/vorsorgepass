@@ -716,13 +716,13 @@ function showPass() {
         date:`Beginn ab 40 Jahren (oder 10 J. vor dem Erkrankungsalter des Angehörigen)`,
         badge: past ? 'Überfällig' : (startY ? `Ab ${startY}` : 'Ab 40 Jahren') });
     } else {
-      // Normalbevölkerung: GKV ab 50 (m) / 55 (f)
-      const startAge = (d.sex === 'f') ? 55 : 50;
+      // Normalbevölkerung: GKV ab 50 J. (seit 01.10.2019 für alle Geschlechter)
+      const startAge = 50;
       const startY   = d.byear ? parseInt(d.byear) + startAge : null;
       const past     = age && age >= startAge;
       items.push({ status: past ? 'red' : 'orange',
         title:'Koloskopie – Erstscreening',
-        date:`GKV-Leistung ab ${startAge} Jahren (zweimal im Leben kostenfrei)`,
+        date:'GKV-Leistung ab 50 Jahren (seit 2019 für alle · zweimal im Leben kostenfrei)',
         badge: past ? 'Überfällig' : (startY ? `Ab ${startY}` : `Ab ${startAge} Jahren`) });
     }
   } else {
