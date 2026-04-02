@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mein Vorsorgepass – Gastroenterologie</title>
+  <link rel="preconnect" href="https://api.fontshare.com"/>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --teal:        #01696F;
+      --teal-dark:   #0C4E54;
+      --teal-light:  #DCF0F1;
+      --amber:       #DA7101;
+      --amber-light: #FDF3E7;
+      --green:       #1E8A4A;
+      --green-light: #E6F4EC;
+      --red:         #C0392B;
+      --red-light:   #FDECEA;
+      --orange:      #E07B00;
+      --orange-light:#FFF0D6;
+      --bg:          #F0F7F7;
+      --surface:     #ffffff;
+      --text:        #1A2C2D;
+      --muted:       #5E7F80;
+      --border:      #C8DEDE;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Satoshi', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--teal-dark);
+      color: #fff;
+      padding: 1.75rem 1.5rem 1.5rem;
+      text-align: center;
+    }
+    header .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #a8d4d6;
+      margin-bottom: 0.5rem;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    header h1 span { color: var(--amber); }
+    header p {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #c8e8ea;
+    }
+
+    /* ── PRIVACY BADGE ── */
+    .privacy-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
+      color: #a8d4d6;
+      margin: 0.9rem auto 0;
+      width: fit-content;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 4rem;
+    }
+
+    /* ── STEPS / WIZARD ── */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    /* ── PROGRESS ── */
+    .progress {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .prog-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.2s;
+    }
+    .prog-dot.done  { background: var(--green); }
+    .prog-dot.active{ background: var(--teal); }
+    .prog-label {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── SECTION CARD ── */
+    .card {
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 1.4rem 1.4rem 1.2rem;
+      box-shadow: 0 2px 12px rgba(1,105,111,0.07);
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── FORM ELEMENTS ── */
+    .field { margin-bottom: 1rem; }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.15s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--teal);
+    }
+
+    /* Radio/Checkbox group */
+    .radio-group, .check-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .radio-group label, .check-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      padding: 0.55rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .radio-group label:has(input:checked),
+    .check-group label:has(input:checked) {
+      border-color: var(--teal);
+      background: var(--teal-light);
+    }
+    .radio-group input, .check-group input { accent-color: var(--teal); }
+
+    /* ── BUTTONS ── */
+    .btn-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--teal); color: #fff; }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-secondary { background: #fff; color: var(--muted); border: 1.5px solid var(--border); flex: 0 0 auto; padding: 0.75rem 1.2rem; }
+
+    /* ── PASS VIEW ── */
+    .pass-header {
+      background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+      color: #fff;
+      border-radius: 14px;
+      padding: 1.4rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .pass-header .name { font-size: 1.3rem; font-weight: 700; }
+    .pass-header .meta { font-size: 0.82rem; color: #a8d4d6; margin-top: 0.3rem; }
+
+    .vorsorge-item {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      box-shadow: 0 1px 6px rgba(1,105,111,0.06);
+      border-left: 4px solid var(--border);
+    }
+    .vorsorge-item.green  { border-left-color: var(--green); }
+    .vorsorge-item.orange { border-left-color: var(--orange); }
+    .vorsorge-item.red    { border-left-color: var(--red); }
+
+    .status-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .green  .status-dot { background: var(--green); }
+    .orange .status-dot { background: var(--orange); }
+    .red    .status-dot { background: var(--red); }
+
+    .item-title { font-size: 0.93rem; font-weight: 700; color: var(--teal-dark); }
+    .item-date  { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+    .item-badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .green  .item-badge { background: var(--green-light);  color: var(--green); }
+    .orange .item-badge { background: var(--orange-light); color: var(--orange); }
+    .red    .item-badge { background: var(--red-light);    color: var(--red); }
+
+    .pass-section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin: 1.25rem 0 0.6rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 2px solid var(--teal-light);
+    }
+
+    .edit-btn {
+      display: block;
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--muted);
+      cursor: pointer;
+      text-align: center;
+    }
+    .edit-btn:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ── DISCLAIMER ── */
+    .disclaimer {
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.5;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 0 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Gastroenterologie · Prävention</div>
+  <h1>Mein <span>Vorsorgepass</span></h1>
+  <p>Personalisierte Vorsorge-Übersicht auf einen Blick</p>
+  <div class="privacy-badge">
+    🔒 Alle Daten bleiben auf Ihrem Gerät – kein Server, keine Registrierung
+  </div>
+</header>
+
+<main>
+
+  <!-- ── STEP 1: Basisdaten ── -->
+  <div class="step active" id="step-1">
+    <div class="progress">
+      <div class="prog-dot active" id="p1"></div>
+      <div class="prog-dot" id="p2"></div>
+      <div class="prog-dot" id="p3"></div>
+      <div class="prog-dot" id="p4"></div>
+      <span class="prog-label">Schritt 1 von 4</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👤 Ihre Angaben</div>
+
+      <div class="field">
+        <label>Vorname (optional)</label>
+        <input type="text" id="fname" placeholder="z. B. Maria"/>
+      </div>
+      <div class="field">
+        <label>Geburtsjahr</label>
+        <input type="number" id="byear" placeholder="z. B. 1978" min="1924" max="2006"/>
+      </div>
+      <div class="field">
+        <label>Geschlecht</label>
+        <div class="radio-group">
+          <label><input type="radio" name="sex" value="f"/> Weiblich</label>
+          <label><input type="radio" name="sex" value="m"/> Männlich</label>
+          <label><input type="radio" name="sex" value="d"/> Divers / keine Angabe</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goStep(2)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Koloskopie + Darmkrebs-Risiko ── -->
+  <div class="step" id="step-2">
+    <div class="progress">
+      <div class="prog-dot done" id="p1b"></div>
+      <div class="prog-dot active" id="p2b"></div>
+      <div class="prog-dot" id="p3b"></div>
+      <div class="prog-dot" id="p4b"></div>
+      <span class="prog-label">Schritt 2 von 4</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔭 Koloskopie</div>
+      <div class="field">
+        <label>Letzte Koloskopie (Datum oder Jahr)</label>
+        <input type="text" id="kolo_date" placeholder="z. B. 2021 oder 03/2021"/>
+      </div>
+      <div class="field">
+        <label>Befund der letzten Koloskopie</label>
+        <div class="radio-group">
+          <label><input type="radio" name="kolo" value="none"/> Keine Auffälligkeiten</label>
+          <label><input type="radio" name="kolo" value="polyp_low"/> Polyp(e) entfernt – niedriges Risiko (klein, tubulär)</label>
+          <label><input type="radio" name="kolo" value="polyp_high"/> Polyp(e) entfernt – erhöhtes Risiko (groß / villös / hochgradig)</label>
+          <label><input type="radio" name="kolo" value="none_yet"/> Noch keine Koloskopie</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👨‍👩‍👧 Familienanamnese Darmkrebs</div>
+      <div class="radio-group">
+        <label><input type="radio" name="fam" value="none"/> Kein Darmkrebs in der Familie bekannt</label>
+        <label><input type="radio" name="fam" value="1st_60plus"/> Erstgradigverwandte/r mit Darmkrebs ≥ 60 Jahre</label>
+        <label><input type="radio" name="fam" value="1st_60minus"/> Erstgradigverwandte/r mit Darmkrebs < 60 Jahre</label>
+        <label><input type="radio" name="fam" value="multi"/> Mehrere Erstgradigverwandte mit Darmkrebs</label>
+        <label><input type="radio" name="fam" value="lynch"/> Bekanntes Lynch-Syndrom / MMR-Mutation</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goStep(1)">← Zurück</button>
+      <button class="btn btn-primary" onclick="goStep(3)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: H. pylori + Magenkrebs ── -->
+  <div class="step" id="step-3">
+    <div class="progress">
+      <div class="prog-dot done"></div>
+      <div class="prog-dot done"></div>
+      <div class="prog-dot active"></div>
+      <div class="prog-dot"></div>
+      <span class="prog-label">Schritt 3 von 4</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🦠 H. pylori</div>
+      <div class="field">
+        <label>H. pylori Status</label>
+        <div class="radio-group">
+          <label><input type="radio" name="hp" value="none"/> Nie getestet</label>
+          <label><input type="radio" name="hp" value="neg"/> Negativ getestet</label>
+          <label><input type="radio" name="hp" value="erad"/> Eradiziert – Kontrolle negativ</label>
+          <label><input type="radio" name="hp" value="pos"/> Positiv – noch keine Therapie</label>
+          <label><input type="radio" name="hp" value="treat"/> Therapie läuft / geplant</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Magenkrebs bei Erstgradigverwandten?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="gastric_fam" value="no"/> Nein / nicht bekannt</label>
+          <label><input type="radio" name="gastric_fam" value="yes"/> Ja</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💊 Lynch-Syndrom & ASS</div>
+      <div class="radio-group">
+        <label><input type="radio" name="lynch" value="no"/> Kein Lynch-Syndrom</label>
+        <label><input type="radio" name="lynch" value="yes_no_ass"/> Lynch-Syndrom bestätigt – ASS noch nicht begonnen</label>
+        <label><input type="radio" name="lynch" value="yes_ass"/> Lynch-Syndrom bestätigt – ASS wird eingenommen</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goStep(2)">← Zurück</button>
+      <button class="btn btn-primary" onclick="goStep(4)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Weitere Risiken ── -->
+  <div class="step" id="step-4">
+    <div class="progress">
+      <div class="prog-dot done"></div>
+      <div class="prog-dot done"></div>
+      <div class="prog-dot done"></div>
+      <div class="prog-dot active"></div>
+      <span class="prog-label">Schritt 4 von 4</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚠️ Weitere Risikofaktoren</div>
+      <div class="check-group">
+        <label><input type="checkbox" id="ced"/> Chronisch-entzündliche Darmerkrankung (CED)</label>
+        <label><input type="checkbox" id="masld"/> MASLD / Fettlebererkrankung bekannt</label>
+        <label><input type="checkbox" id="pankreas"/> Pankreatitis in der Vorgeschichte</label>
+        <label><input type="checkbox" id="uebergewicht"/> Übergewicht (BMI > 30)</label>
+        <label><input type="checkbox" id="rauchen"/> Aktueller Raucher / Raucherin</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goStep(3)">← Zurück</button>
+      <button class="btn btn-primary" onclick="showPass()">Meinen Pass anzeigen ✓</button>
+    </div>
+  </div>
+
+  <!-- ── PASS VIEW ── -->
+  <div class="step" id="step-pass">
+    <div class="pass-header">
+      <div class="name" id="pass-name">Mein Vorsorgepass</div>
+      <div class="meta" id="pass-meta"></div>
+    </div>
+
+    <div class="pass-section-label">Meine nächsten Vorsorge-Termine</div>
+    <div id="vorsorge-list"></div>
+
+    <div class="pass-section-label">Mein Risikoprofil</div>
+    <div id="risk-list"></div>
+
+    <button class="edit-btn" onclick="goStep(1)">✎ Angaben bearbeiten</button>
+
+    <p class="disclaimer">
+      Diese App ersetzt keine ärztliche Beratung. Die Empfehlungen basieren auf den aktuellen
+      Leitlinien (S3-Leitlinie KRK 2023, Maastricht VI 2022, CAPP3 2025)
+      und sind als Orientierung gedacht. Sprechen Sie Ihre individuelle Vorsorge mit Ihrer Ärztin / Ihrem Arzt ab.<br><br>
+      Dr. med. Kristin Koschny · Gastroenterologie · GFGB-Jahrestagung 2026
+    </p>
+  </div>
+
+</main>
+
+<script>
+// ── Data store (localStorage) ──────────────────────────────────────────────
+const STORE_KEY = 'vorsorgepass_v1';
+
+function save() {
+  const d = {
+    fname:       document.getElementById('fname').value,
+    byear:       document.getElementById('byear').value,
+    sex:         document.querySelector('input[name="sex"]:checked')?.value || '',
+    kolo_date:   document.getElementById('kolo_date').value,
+    kolo:        document.querySelector('input[name="kolo"]:checked')?.value || '',
+    fam:         document.querySelector('input[name="fam"]:checked')?.value || '',
+    hp:          document.querySelector('input[name="hp"]:checked')?.value || '',
+    gastric_fam: document.querySelector('input[name="gastric_fam"]:checked')?.value || '',
+    lynch:       document.querySelector('input[name="lynch"]:checked')?.value || '',
+    ced:         document.getElementById('ced').checked,
+    masld:       document.getElementById('masld').checked,
+    pankreas:    document.getElementById('pankreas').checked,
+    uebergewicht:document.getElementById('uebergewicht').checked,
+    rauchen:     document.getElementById('rauchen').checked,
+  };
+  localStorage.setItem(STORE_KEY, JSON.stringify(d));
+  return d;
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch(e) { return null; }
+}
+
+function restore(d) {
+  if (!d) return;
+  if (d.fname) document.getElementById('fname').value = d.fname;
+  if (d.byear) document.getElementById('byear').value = d.byear;
+  if (d.sex)   { const r = document.querySelector(`input[name="sex"][value="${d.sex}"]`); if(r) r.checked = true; }
+  if (d.kolo_date) document.getElementById('kolo_date').value = d.kolo_date;
+  if (d.kolo)  { const r = document.querySelector(`input[name="kolo"][value="${d.kolo}"]`); if(r) r.checked = true; }
+  if (d.fam)   { const r = document.querySelector(`input[name="fam"][value="${d.fam}"]`); if(r) r.checked = true; }
+  if (d.hp)    { const r = document.querySelector(`input[name="hp"][value="${d.hp}"]`); if(r) r.checked = true; }
+  if (d.gastric_fam) { const r = document.querySelector(`input[name="gastric_fam"][value="${d.gastric_fam}"]`); if(r) r.checked = true; }
+  if (d.lynch) { const r = document.querySelector(`input[name="lynch"][value="${d.lynch}"]`); if(r) r.checked = true; }
+  document.getElementById('ced').checked =         d.ced || false;
+  document.getElementById('masld').checked =       d.masld || false;
+  document.getElementById('pankreas').checked =    d.pankreas || false;
+  document.getElementById('uebergewicht').checked= d.uebergewicht || false;
+  document.getElementById('rauchen').checked =     d.rauchen || false;
+}
+
+// ── Step navigation ────────────────────────────────────────────────────────
+function goStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Date helpers ───────────────────────────────────────────────────────────
+function parseYear(str) {
+  if (!str) return null;
+  // Try "MM/YYYY" or "YYYY"
+  const m = str.match(/(\d{4})/);
+  return m ? parseInt(m[1]) : null;
+}
+
+function addYears(year, n) { return year + n; }
+
+function statusForDate(targetYear) {
+  const now = new Date().getFullYear();
+  if (targetYear <= now) return 'red';
+  if (targetYear <= now + 1) return 'orange';
+  return 'green';
+}
+
+function labelForDate(targetYear) {
+  const now = new Date().getFullYear();
+  if (targetYear <= now) return 'Überfällig';
+  if (targetYear === now + 1) return 'Im nächsten Jahr';
+  return `Fällig ${targetYear}`;
+}
+
+// ── Generate pass ──────────────────────────────────────────────────────────
+function showPass() {
+  const d = save();
+  const now = new Date().getFullYear();
+  const age = d.byear ? now - parseInt(d.byear) : null;
+
+  // Pass header
+  const nameEl = document.getElementById('pass-name');
+  nameEl.textContent = d.fname ? `Vorsorgepass – ${d.fname}` : 'Mein Vorsorgepass';
+
+  const metaParts = [];
+  if (age) metaParts.push(`${age} Jahre`);
+  if (d.sex === 'f') metaParts.push('weiblich');
+  if (d.sex === 'm') metaParts.push('männlich');
+  metaParts.push('Stand: ' + new Date().toLocaleDateString('de-DE', {month:'long', year:'numeric'}));
+  document.getElementById('pass-meta').textContent = metaParts.join(' · ');
+
+  // ── Build vorsorge items
+  const items = [];
+
+  // — Koloskopie
+  const koloYear = parseYear(d.kolo_date);
+  if (d.kolo === 'none_yet' || !koloYear) {
+    // Never done
+    let recommended;
+    if (d.fam === 'lynch') {
+      recommended = 'Jetzt (jährlich ab 25 J.)';
+      items.push({ status:'red', title:'Koloskopie – Lynch-Surveillance', date:'Empfohlen: jährlich bis 2-jährlich', badge:'Sofort' });
+    } else if (d.fam === '1st_60minus' || d.fam === 'multi') {
+      const startAge = 40;
+      items.push({ status:'red', title:'Koloskopie – erhöhtes Risiko', date:`Empfohlen ab 40 Jahren (oder 10 Jahre vor Erkrankungsalter des Angehörigen)`, badge: age && age >= startAge ? 'Überfällig' : `Ab ${d.byear ? parseInt(d.byear)+startAge : startAge+' Jahren'}` });
+    } else {
+      const startAge = 50;
+      items.push({ status: age && age >= 50 ? 'red' : 'orange', title:'Koloskopie – Erstscreening', date:'GKV-Leistung ab 50 Jahren (Männer ab 50, Frauen ab 55)', badge: age && age >= 50 ? 'Überfällig' : `Ab ${d.byear ? parseInt(d.byear)+startAge : '50 Jahren'}` });
+    }
+  } else {
+    // Done – compute next
+    let interval, note;
+    if (d.fam === 'lynch') {
+      interval = 2; note = 'Lynch-Syndrom: alle 1–2 Jahre (S3-Leitlinie KRK 2023)';
+    } else if (d.kolo === 'polyp_high') {
+      interval = 3; note = 'Hochrisiko-Polypen: Kontrolle nach 3 Jahren';
+    } else if (d.kolo === 'polyp_low') {
+      interval = 5; note = 'Low-risk Adenome: Kontrolle nach 5 Jahren';
+    } else {
+      interval = 10; note = 'Unauffällig: nächste Kontrolle in 10 Jahren';
+    }
+    const nextYear = addYears(koloYear, interval);
+    const st = statusForDate(nextYear);
+    items.push({ status: st, title:'Nächste Koloskopie', date:`Letzte: ${d.kolo_date} · ${note}`, badge: labelForDate(nextYear) + ` (${nextYear})` });
+  }
+
+  // — H. pylori
+  if (d.hp === 'none' || d.hp === '') {
+    if (d.gastric_fam === 'yes' || (age && age >= 40)) {
+      items.push({ status:'orange', title:'H. pylori – Screening empfohlen', date:'Erstgradigverwandte mit Magenkarzinom oder Alter ≥ 40 J.', badge:'Noch nicht erfolgt' });
+    }
+  } else if (d.hp === 'pos' || d.hp === 'treat') {
+    items.push({ status:'red', title:'H. pylori – Eradikation + Kontrolle', date:'Eradikationstherapie einleiten, ¹³C-Atemtest nach 4 Wochen', badge:'Dringend' });
+  } else if (d.hp === 'erad') {
+    items.push({ status:'green', title:'H. pylori – Eradikation erfolgreich', date:'Kontrolle negativ – kein weiterer Handlungsbedarf', badge:'Erledigt ✓' });
+  }
+
+  // — Lynch / ASS
+  if (d.lynch === 'yes_no_ass') {
+    items.push({ status:'red', title:'ASS 100 mg – Beginn empfohlen', date:'Lynch-Syndrom: ASS 100 mg/Tag zur KRK-Prävention (CAPP3 2025)', badge:'Noch nicht begonnen' });
+  } else if (d.lynch === 'yes_ass') {
+    items.push({ status:'green', title:'ASS 100 mg – wird eingenommen', date:'Lynch-Syndrom: fortführen, min. 2 Jahre (CAPP3 2025)', badge:'Laufend ✓' });
+  }
+
+  // — Darmkrebs-Vorsorge GKV (Stuhltest)
+  if (!d.kolo_date && d.kolo !== 'none_yet' && age && age >= 50 && age < 55) {
+    items.push({ status:'orange', title:'Stuhlbluttest (FIT) als Einstieg', date:'Ab 50 Jahren: jährlicher FIT als Alternative bis zur Koloskopie', badge:'Jährlich' });
+  }
+
+  // — Pankreatitis Nachsorge
+  if (d.pankreas) {
+    items.push({ status:'orange', title:'Pankreatitis-Nachsorge', date:'DGVS S3 2024: strukturierte Kontrolle empfohlen', badge:'Nächsten Termin vereinbaren' });
+  }
+
+  // — Render
+  const listEl = document.getElementById('vorsorge-list');
+  if (items.length === 0) {
+    listEl.innerHTML = '<div class="vorsorge-item green"><div class="status-dot"></div><div><div class="item-title">Keine akuten Handlungsempfehlungen</div><div class="item-date">Weiter so – regelmäßige Kontrollen laut Ihrem Arzt</div></div></div>';
+  } else {
+    listEl.innerHTML = items.map(i => `
+      <div class="vorsorge-item ${i.status}">
+        <div class="status-dot"></div>
+        <div style="flex:1">
+          <div class="item-title">${i.title}</div>
+          <div class="item-date">${i.date}</div>
+        </div>
+        <div class="item-badge">${i.badge}</div>
+      </div>
+    `).join('');
+  }
+
+  // — Risk profile chips
+  const risks = [];
+  if (d.fam && d.fam !== 'none') risks.push('Familiäre KRK-Belastung');
+  if (d.fam === 'lynch') risks.push('Lynch-Syndrom');
+  if (d.hp === 'pos') risks.push('H. pylori positiv');
+  if (d.gastric_fam === 'yes') risks.push('Magenkarzinom-Familienanamnese');
+  if (d.ced) risks.push('CED');
+  if (d.masld) risks.push('MASLD');
+  if (d.pankreas) risks.push('Pankreatitis');
+  if (d.uebergewicht) risks.push('Adipositas');
+  if (d.rauchen) risks.push('Rauchen');
+
+  const riskEl = document.getElementById('risk-list');
+  if (risks.length === 0) {
+    riskEl.innerHTML = '<div class="vorsorge-item green"><div class="status-dot"></div><div><div class="item-title">Kein erhöhtes Risiko angegeben</div></div></div>';
+  } else {
+    riskEl.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.5rem 0">${
+      risks.map(r => `<span style="background:var(--teal-light);color:var(--teal-dark);border-radius:20px;padding:0.3rem 0.8rem;font-size:0.82rem;font-weight:600">${r}</span>`).join('')
+    }</div>`;
+  }
+
+  goStep('pass');
+}
+
+// ── Init ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = load();
+  if (saved) {
+    restore(saved);
+    // If they've already completed, show pass directly
+    if (saved.byear && saved.kolo) showPass();
+  }
+});
+</script>
+
+</body>
+</html>
