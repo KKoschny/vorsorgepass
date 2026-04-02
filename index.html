@@ -58,8 +58,6 @@
       font-size: 0.9rem;
       color: #c8e8ea;
     }
-
-    /* ── PRIVACY BADGE ── */
     .privacy-badge {
       display: flex;
       align-items: center;
@@ -82,7 +80,7 @@
       padding: 1.5rem 1rem 4rem;
     }
 
-    /* ── STEPS / WIZARD ── */
+    /* ── STEPS ── */
     .step { display: none; }
     .step.active { display: block; }
 
@@ -99,15 +97,15 @@
       background: var(--border);
       transition: background 0.2s;
     }
-    .prog-dot.done  { background: var(--green); }
-    .prog-dot.active{ background: var(--teal); }
+    .prog-dot.done   { background: var(--green); }
+    .prog-dot.active { background: var(--teal); }
     .prog-label {
       margin-left: auto;
       font-size: 0.75rem;
       color: var(--muted);
     }
 
-    /* ── SECTION CARD ── */
+    /* ── CARD ── */
     .card {
       background: var(--surface);
       border-radius: 14px;
@@ -124,8 +122,31 @@
       align-items: center;
       gap: 0.5rem;
     }
+    .card-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+      line-height: 1.5;
+    }
 
-    /* ── FORM ELEMENTS ── */
+    /* ── CONDITIONAL SUBGROUP ── */
+    .subgroup {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--teal-light);
+      display: none;
+    }
+    .subgroup.visible { display: block; }
+    .subgroup-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--teal);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── FORM ── */
     .field { margin-bottom: 1rem; }
     label {
       display: block;
@@ -156,7 +177,6 @@
       border-color: var(--teal);
     }
 
-    /* Radio/Checkbox group */
     .radio-group, .check-group {
       display: flex;
       flex-direction: column;
@@ -244,7 +264,7 @@
     .red    .status-dot { background: var(--red); }
 
     .item-title { font-size: 0.93rem; font-weight: 700; color: var(--teal-dark); }
-    .item-date  { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; }
+    .item-date  { font-size: 0.82rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.4; }
     .item-badge {
       margin-left: auto;
       font-size: 0.72rem;
@@ -285,7 +305,6 @@
     }
     .edit-btn:hover { border-color: var(--teal); color: var(--teal); }
 
-    /* ── DISCLAIMER ── */
     .disclaimer {
       font-size: 0.75rem;
       color: var(--muted);
@@ -312,23 +331,23 @@
   <!-- ── STEP 1: Basisdaten ── -->
   <div class="step active" id="step-1">
     <div class="progress">
-      <div class="prog-dot active" id="p1"></div>
-      <div class="prog-dot" id="p2"></div>
-      <div class="prog-dot" id="p3"></div>
-      <div class="prog-dot" id="p4"></div>
-      <span class="prog-label">Schritt 1 von 4</span>
+      <div class="prog-dot active"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <span class="prog-label">Schritt 1 von 5</span>
     </div>
 
     <div class="card">
       <div class="card-title">👤 Ihre Angaben</div>
-
       <div class="field">
         <label>Vorname (optional)</label>
         <input type="text" id="fname" placeholder="z. B. Maria"/>
       </div>
       <div class="field">
         <label>Geburtsjahr</label>
-        <input type="number" id="byear" placeholder="z. B. 1978" min="1924" max="2006"/>
+        <input type="number" id="byear" placeholder="z. B. 1978" min="1924" max="2010"/>
       </div>
       <div class="field">
         <label>Geschlecht</label>
@@ -345,83 +364,158 @@
     </div>
   </div>
 
-  <!-- ── STEP 2: Koloskopie + Darmkrebs-Risiko ── -->
+  <!-- ── STEP 2: Koloskopie ── -->
   <div class="step" id="step-2">
     <div class="progress">
-      <div class="prog-dot done" id="p1b"></div>
-      <div class="prog-dot active" id="p2b"></div>
-      <div class="prog-dot" id="p3b"></div>
-      <div class="prog-dot" id="p4b"></div>
-      <span class="prog-label">Schritt 2 von 4</span>
+      <div class="prog-dot done"></div>
+      <div class="prog-dot active"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <div class="prog-dot"></div>
+      <span class="prog-label">Schritt 2 von 5</span>
+    </div>
+
+    <div id="befund-banner" style="display:none; background:#E6F4EC; border:1.5px solid #1E8A4A; border-radius:10px; padding:0.9rem 1.1rem; margin-bottom:1rem; font-size:0.88rem; color:#1A2C2D;">
+      <strong style="color:#1E8A4A;">✓ Ihr Koloskopie-Befund wurde übermittelt</strong><br>
+      <span id="befund-text"></span>
     </div>
 
     <div class="card">
       <div class="card-title">🔭 Koloskopie</div>
+
       <div class="field">
-        <label>Letzte Koloskopie (Datum oder Jahr)</label>
-        <input type="text" id="kolo_date" placeholder="z. B. 2021 oder 03/2021"/>
-      </div>
-      <div class="field">
-        <label>Befund der letzten Koloskopie</label>
-        <div class="radio-group">
-          <label><input type="radio" name="kolo" value="none"/> Keine Auffälligkeiten</label>
-          <label><input type="radio" name="kolo" value="polyp_low"/> Polyp(e) entfernt – niedriges Risiko (klein, tubulär)</label>
-          <label><input type="radio" name="kolo" value="polyp_high"/> Polyp(e) entfernt – erhöhtes Risiko (groß / villös / hochgradig)</label>
-          <label><input type="radio" name="kolo" value="none_yet"/> Noch keine Koloskopie</label>
+        <label>Wurde bereits eine Darmspiegelung durchgeführt?</label>
+        <div class="radio-group" id="kolo-done-group">
+          <label><input type="radio" name="kolo_done" value="yes" onchange="onKoloDoneChange()"/> Ja</label>
+          <label><input type="radio" name="kolo_done" value="no"  onchange="onKoloDoneChange()"/> Nein, noch keine Koloskopie</label>
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-title">👨‍👩‍👧 Familienanamnese Darmkrebs</div>
-      <div class="radio-group">
-        <label><input type="radio" name="fam" value="none"/> Kein Darmkrebs in der Familie bekannt</label>
-        <label><input type="radio" name="fam" value="1st_60plus"/> Erstgradigverwandte/r mit Darmkrebs ≥ 60 Jahre</label>
-        <label><input type="radio" name="fam" value="1st_60minus"/> Erstgradigverwandte/r mit Darmkrebs < 60 Jahre</label>
-        <label><input type="radio" name="fam" value="multi"/> Mehrere Erstgradigverwandte mit Darmkrebs</label>
-        <label><input type="radio" name="fam" value="lynch"/> Bekanntes Lynch-Syndrom / MMR-Mutation</label>
+      <!-- Wenn ja: Datum + Befund -->
+      <div class="subgroup" id="kolo-details">
+        <div class="subgroup-label">Details zur letzten Koloskopie</div>
+
+        <div class="field">
+          <label>Datum / Jahr der letzten Koloskopie</label>
+          <input type="text" id="kolo_date" placeholder="z. B. 2022 oder 03/2022"/>
+        </div>
+
+        <div class="field">
+          <label>Befund</label>
+          <div class="radio-group" id="kolo-result-group">
+            <label><input type="radio" name="kolo_result" value="none" onchange="onKoloResultChange()"/>
+              Keine Auffälligkeiten / Normalbefund</label>
+            <label><input type="radio" name="kolo_result" value="polyp" onchange="onKoloResultChange()"/>
+              Polyp(en) entfernt (Adenom/e)</label>
+            <label><input type="radio" name="kolo_result" value="serrated" onchange="onKoloResultChange()"/>
+              Sessiles serratiertes Adenom (SSA/P) entfernt</label>
+            <label><input type="radio" name="kolo_result" value="ibd" onchange="onKoloResultChange()"/>
+              Chronisch-entzündliche Darmerkrankung (CED) bekannt</label>
+          </div>
+        </div>
+
+        <!-- Polypenbefund: Risikoklasse nach S3 -->
+        <div class="subgroup" id="polyp-detail">
+          <div class="subgroup-label">Polypen – genauere Einordnung (S3-Leitlinie KRK 2023)</div>
+          <div class="radio-group">
+            <label><input type="radio" name="polyp_risk" value="low"/>
+              Niedriges Risiko: 1–2 Adenome, alle &lt; 10 mm, rein tubulär, keine hochgradige Dysplasie</label>
+            <label><input type="radio" name="polyp_risk" value="high"/>
+              Hohes Risiko: ≥ 3 Adenome, ODER ≥ 1 Adenom ≥ 10 mm, ODER villöse/tubulovillöse Histologie, ODER hochgradige Dysplasie</label>
+            <label><input type="radio" name="polyp_risk" value="unknown"/>
+              Genaue Befunde nicht bekannt</label>
+          </div>
+        </div>
+
+        <!-- SSA/P Größe -->
+        <div class="subgroup" id="ssa-detail">
+          <div class="subgroup-label">SSA/P – Größe</div>
+          <div class="radio-group">
+            <label><input type="radio" name="ssa_size" value="small"/> &lt; 10 mm</label>
+            <label><input type="radio" name="ssa_size" value="large"/> ≥ 10 mm oder mit Dysplasie</label>
+            <label><input type="radio" name="ssa_size" value="unknown"/> Unbekannt</label>
+          </div>
+        </div>
+
+        <!-- CED Dauer -->
+        <div class="subgroup" id="ibd-detail">
+          <div class="subgroup-label">CED – Erkrankungsdauer</div>
+          <div class="radio-group">
+            <label><input type="radio" name="ibd_dur" value="lt8"/> Weniger als 8 Jahre</label>
+            <label><input type="radio" name="ibd_dur" value="ge8"/> 8 Jahre oder länger</label>
+          </div>
+        </div>
       </div>
+
     </div>
 
     <div class="btn-row">
       <button class="btn btn-secondary" onclick="goStep(1)">← Zurück</button>
-      <button class="btn btn-primary" onclick="goStep(3)">Weiter →</button>
+      <button class="btn btn-primary"   onclick="goStep(3)">Weiter →</button>
     </div>
   </div>
 
-  <!-- ── STEP 3: H. pylori + Magenkrebs ── -->
+  <!-- ── STEP 3: Familienanamnese ── -->
   <div class="step" id="step-3">
     <div class="progress">
       <div class="prog-dot done"></div>
       <div class="prog-dot done"></div>
       <div class="prog-dot active"></div>
       <div class="prog-dot"></div>
-      <span class="prog-label">Schritt 3 von 4</span>
+      <div class="prog-dot"></div>
+      <span class="prog-label">Schritt 3 von 5</span>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👨‍👩‍👧 Familienanamnese – Darmkrebs</div>
+      <div class="card-hint">Gemeint sind Eltern, Geschwister oder Kinder (Erstgradigverwandte).</div>
+      <div class="radio-group">
+        <label><input type="radio" name="fam" value="none"/> Kein Darmkrebs in der Familie bekannt</label>
+        <label><input type="radio" name="fam" value="1st_60plus"/> Erstgradigverwandte/r erkrankt mit ≥ 60 Jahren</label>
+        <label><input type="radio" name="fam" value="1st_60minus"/> Erstgradigverwandte/r erkrankt mit &lt; 60 Jahren</label>
+        <label><input type="radio" name="fam" value="multi"/> Mehrere Erstgradigverwandte mit Darmkrebs</label>
+        <label><input type="radio" name="fam" value="lynch"/> Bekanntes Lynch-Syndrom / MMR-Mutation</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🫁 Familienanamnese – Magenkrebs</div>
+      <div class="radio-group">
+        <label><input type="radio" name="gastric_fam" value="no"/> Kein Magenkrebs bei Erstgradigverwandten</label>
+        <label><input type="radio" name="gastric_fam" value="yes"/> Magenkrebs bei Erstgradigverwandten bekannt</label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="goStep(2)">← Zurück</button>
+      <button class="btn btn-primary"   onclick="goStep(4)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: H. pylori + Lynch/ASS ── -->
+  <div class="step" id="step-4">
+    <div class="progress">
+      <div class="prog-dot done"></div>
+      <div class="prog-dot done"></div>
+      <div class="prog-dot done"></div>
+      <div class="prog-dot active"></div>
+      <div class="prog-dot"></div>
+      <span class="prog-label">Schritt 4 von 5</span>
     </div>
 
     <div class="card">
       <div class="card-title">🦠 H. pylori</div>
-      <div class="field">
-        <label>H. pylori Status</label>
-        <div class="radio-group">
-          <label><input type="radio" name="hp" value="none"/> Nie getestet</label>
-          <label><input type="radio" name="hp" value="neg"/> Negativ getestet</label>
-          <label><input type="radio" name="hp" value="erad"/> Eradiziert – Kontrolle negativ</label>
-          <label><input type="radio" name="hp" value="pos"/> Positiv – noch keine Therapie</label>
-          <label><input type="radio" name="hp" value="treat"/> Therapie läuft / geplant</label>
-        </div>
-      </div>
-      <div class="field">
-        <label>Magenkrebs bei Erstgradigverwandten?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="gastric_fam" value="no"/> Nein / nicht bekannt</label>
-          <label><input type="radio" name="gastric_fam" value="yes"/> Ja</label>
-        </div>
+      <div class="radio-group">
+        <label><input type="radio" name="hp" value="none"/> Nie getestet</label>
+        <label><input type="radio" name="hp" value="neg"/> Negativ getestet</label>
+        <label><input type="radio" name="hp" value="erad"/> Eradiziert – Kontrolle negativ</label>
+        <label><input type="radio" name="hp" value="pos"/> Positiv – noch keine Therapie</label>
+        <label><input type="radio" name="hp" value="treat"/> Therapie läuft / geplant</label>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">💊 Lynch-Syndrom & ASS</div>
+      <div class="card-title">💊 Lynch-Syndrom &amp; ASS</div>
       <div class="radio-group">
         <label><input type="radio" name="lynch" value="no"/> Kein Lynch-Syndrom</label>
         <label><input type="radio" name="lynch" value="yes_no_ass"/> Lynch-Syndrom bestätigt – ASS noch nicht begonnen</label>
@@ -430,25 +524,25 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goStep(2)">← Zurück</button>
-      <button class="btn btn-primary" onclick="goStep(4)">Weiter →</button>
+      <button class="btn btn-secondary" onclick="goStep(3)">← Zurück</button>
+      <button class="btn btn-primary"   onclick="goStep(5)">Weiter →</button>
     </div>
   </div>
 
-  <!-- ── STEP 4: Weitere Risiken ── -->
-  <div class="step" id="step-4">
+  <!-- ── STEP 5: Weitere Risiken ── -->
+  <div class="step" id="step-5">
     <div class="progress">
       <div class="prog-dot done"></div>
       <div class="prog-dot done"></div>
       <div class="prog-dot done"></div>
+      <div class="prog-dot done"></div>
       <div class="prog-dot active"></div>
-      <span class="prog-label">Schritt 4 von 4</span>
+      <span class="prog-label">Schritt 5 von 5</span>
     </div>
 
     <div class="card">
       <div class="card-title">⚠️ Weitere Risikofaktoren</div>
       <div class="check-group">
-        <label><input type="checkbox" id="ced"/> Chronisch-entzündliche Darmerkrankung (CED)</label>
         <label><input type="checkbox" id="masld"/> MASLD / Fettlebererkrankung bekannt</label>
         <label><input type="checkbox" id="pankreas"/> Pankreatitis in der Vorgeschichte</label>
         <label><input type="checkbox" id="uebergewicht"/> Übergewicht (BMI > 30)</label>
@@ -457,7 +551,7 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="goStep(3)">← Zurück</button>
+      <button class="btn btn-secondary" onclick="goStep(4)">← Zurück</button>
       <button class="btn btn-primary" onclick="showPass()">Meinen Pass anzeigen ✓</button>
     </div>
   </div>
@@ -488,25 +582,47 @@
 </main>
 
 <script>
-// ── Data store (localStorage) ──────────────────────────────────────────────
-const STORE_KEY = 'vorsorgepass_v1';
+// ── Conditional UI ───────────────────────────────────────────────────────────
+function onKoloDoneChange() {
+  const done = document.querySelector('input[name="kolo_done"]:checked')?.value;
+  document.getElementById('kolo-details').classList.toggle('visible', done === 'yes');
+  // reset subgroups when toggled off
+  if (done !== 'yes') {
+    document.getElementById('polyp-detail').classList.remove('visible');
+    document.getElementById('ssa-detail').classList.remove('visible');
+    document.getElementById('ibd-detail').classList.remove('visible');
+  }
+}
+
+function onKoloResultChange() {
+  const v = document.querySelector('input[name="kolo_result"]:checked')?.value;
+  document.getElementById('polyp-detail').classList.toggle('visible', v === 'polyp');
+  document.getElementById('ssa-detail').classList.toggle('visible',   v === 'serrated');
+  document.getElementById('ibd-detail').classList.toggle('visible',   v === 'ibd');
+}
+
+// ── Data store ───────────────────────────────────────────────────────────────
+const STORE_KEY = 'vorsorgepass_v2';
 
 function save() {
   const d = {
-    fname:       document.getElementById('fname').value,
-    byear:       document.getElementById('byear').value,
-    sex:         document.querySelector('input[name="sex"]:checked')?.value || '',
-    kolo_date:   document.getElementById('kolo_date').value,
-    kolo:        document.querySelector('input[name="kolo"]:checked')?.value || '',
-    fam:         document.querySelector('input[name="fam"]:checked')?.value || '',
-    hp:          document.querySelector('input[name="hp"]:checked')?.value || '',
-    gastric_fam: document.querySelector('input[name="gastric_fam"]:checked')?.value || '',
-    lynch:       document.querySelector('input[name="lynch"]:checked')?.value || '',
-    ced:         document.getElementById('ced').checked,
-    masld:       document.getElementById('masld').checked,
-    pankreas:    document.getElementById('pankreas').checked,
-    uebergewicht:document.getElementById('uebergewicht').checked,
-    rauchen:     document.getElementById('rauchen').checked,
+    fname:        document.getElementById('fname').value,
+    byear:        document.getElementById('byear').value,
+    sex:          document.querySelector('input[name="sex"]:checked')?.value || '',
+    kolo_done:    document.querySelector('input[name="kolo_done"]:checked')?.value || '',
+    kolo_date:    document.getElementById('kolo_date').value,
+    kolo_result:  document.querySelector('input[name="kolo_result"]:checked')?.value || '',
+    polyp_risk:   document.querySelector('input[name="polyp_risk"]:checked')?.value || '',
+    ssa_size:     document.querySelector('input[name="ssa_size"]:checked')?.value || '',
+    ibd_dur:      document.querySelector('input[name="ibd_dur"]:checked')?.value || '',
+    fam:          document.querySelector('input[name="fam"]:checked')?.value || '',
+    gastric_fam:  document.querySelector('input[name="gastric_fam"]:checked')?.value || '',
+    hp:           document.querySelector('input[name="hp"]:checked')?.value || '',
+    lynch:        document.querySelector('input[name="lynch"]:checked')?.value || '',
+    masld:        document.getElementById('masld').checked,
+    pankreas:     document.getElementById('pankreas').checked,
+    uebergewicht: document.getElementById('uebergewicht').checked,
+    rauchen:      document.getElementById('rauchen').checked,
   };
   localStorage.setItem(STORE_KEY, JSON.stringify(d));
   return d;
@@ -524,61 +640,58 @@ function restore(d) {
   if (!d) return;
   if (d.fname) document.getElementById('fname').value = d.fname;
   if (d.byear) document.getElementById('byear').value = d.byear;
-  if (d.sex)   { const r = document.querySelector(`input[name="sex"][value="${d.sex}"]`); if(r) r.checked = true; }
+  ['sex','kolo_done','kolo_result','polyp_risk','ssa_size','ibd_dur','fam','gastric_fam','hp','lynch'].forEach(name => {
+    if (d[name]) {
+      const r = document.querySelector(`input[name="${name}"][value="${d[name]}"]`);
+      if (r) r.checked = true;
+    }
+  });
   if (d.kolo_date) document.getElementById('kolo_date').value = d.kolo_date;
-  if (d.kolo)  { const r = document.querySelector(`input[name="kolo"][value="${d.kolo}"]`); if(r) r.checked = true; }
-  if (d.fam)   { const r = document.querySelector(`input[name="fam"][value="${d.fam}"]`); if(r) r.checked = true; }
-  if (d.hp)    { const r = document.querySelector(`input[name="hp"][value="${d.hp}"]`); if(r) r.checked = true; }
-  if (d.gastric_fam) { const r = document.querySelector(`input[name="gastric_fam"][value="${d.gastric_fam}"]`); if(r) r.checked = true; }
-  if (d.lynch) { const r = document.querySelector(`input[name="lynch"][value="${d.lynch}"]`); if(r) r.checked = true; }
-  document.getElementById('ced').checked =         d.ced || false;
-  document.getElementById('masld').checked =       d.masld || false;
-  document.getElementById('pankreas').checked =    d.pankreas || false;
-  document.getElementById('uebergewicht').checked= d.uebergewicht || false;
-  document.getElementById('rauchen').checked =     d.rauchen || false;
+  ['masld','pankreas','uebergewicht','rauchen'].forEach(id => {
+    document.getElementById(id).checked = d[id] || false;
+  });
+  // Re-trigger conditional UI
+  onKoloDoneChange();
+  onKoloResultChange();
 }
 
-// ── Step navigation ────────────────────────────────────────────────────────
+// ── Step navigation ──────────────────────────────────────────────────────────
 function goStep(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('step-' + n).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── Date helpers ───────────────────────────────────────────────────────────
+// ── Date helpers ─────────────────────────────────────────────────────────────
 function parseYear(str) {
   if (!str) return null;
-  // Try "MM/YYYY" or "YYYY"
   const m = str.match(/(\d{4})/);
   return m ? parseInt(m[1]) : null;
 }
 
-function addYears(year, n) { return year + n; }
-
-function statusForDate(targetYear) {
+function statusForYear(targetYear) {
   const now = new Date().getFullYear();
-  if (targetYear <= now) return 'red';
+  if (targetYear <= now)     return 'red';
   if (targetYear <= now + 1) return 'orange';
   return 'green';
 }
 
-function labelForDate(targetYear) {
+function labelForYear(targetYear) {
   const now = new Date().getFullYear();
-  if (targetYear <= now) return 'Überfällig';
-  if (targetYear === now + 1) return 'Im nächsten Jahr';
+  if (targetYear <= now)        return 'Überfällig';
+  if (targetYear === now + 1)   return 'Im nächsten Jahr';
   return `Fällig ${targetYear}`;
 }
 
-// ── Generate pass ──────────────────────────────────────────────────────────
+// ── Generate pass ─────────────────────────────────────────────────────────────
 function showPass() {
   const d = save();
   const now = new Date().getFullYear();
   const age = d.byear ? now - parseInt(d.byear) : null;
 
-  // Pass header
-  const nameEl = document.getElementById('pass-name');
-  nameEl.textContent = d.fname ? `Vorsorgepass – ${d.fname}` : 'Mein Vorsorgepass';
-
+  // Header
+  document.getElementById('pass-name').textContent =
+    d.fname ? `Vorsorgepass – ${d.fname}` : 'Mein Vorsorgepass';
   const metaParts = [];
   if (age) metaParts.push(`${age} Jahre`);
   if (d.sex === 'f') metaParts.push('weiblich');
@@ -586,70 +699,180 @@ function showPass() {
   metaParts.push('Stand: ' + new Date().toLocaleDateString('de-DE', {month:'long', year:'numeric'}));
   document.getElementById('pass-meta').textContent = metaParts.join(' · ');
 
-  // ── Build vorsorge items
   const items = [];
 
-  // — Koloskopie
-  const koloYear = parseYear(d.kolo_date);
-  if (d.kolo === 'none_yet' || !koloYear) {
-    // Never done
-    let recommended;
+  // ── Koloskopie ──────────────────────────────────────────────────────────
+  if (d.kolo_done === 'no' || !d.kolo_done) {
+    // Noch keine Koloskopie
     if (d.fam === 'lynch') {
-      recommended = 'Jetzt (jährlich ab 25 J.)';
-      items.push({ status:'red', title:'Koloskopie – Lynch-Surveillance', date:'Empfohlen: jährlich bis 2-jährlich', badge:'Sofort' });
+      items.push({ status:'red', title:'Koloskopie – Lynch-Surveillance',
+        date:'Empfohlen: alle 1–2 Jahre ab dem 25. Lebensjahr (S3-Leitlinie KRK 2023)',
+        badge:'Sofort' });
     } else if (d.fam === '1st_60minus' || d.fam === 'multi') {
-      const startAge = 40;
-      items.push({ status:'red', title:'Koloskopie – erhöhtes Risiko', date:`Empfohlen ab 40 Jahren (oder 10 Jahre vor Erkrankungsalter des Angehörigen)`, badge: age && age >= startAge ? 'Überfällig' : `Ab ${d.byear ? parseInt(d.byear)+startAge : startAge+' Jahren'}` });
+      const startY = d.byear ? parseInt(d.byear) + 40 : null;
+      const past   = startY && now >= startY;
+      items.push({ status: past ? 'red' : 'orange',
+        title:'Koloskopie – erhöhtes familiäres Risiko',
+        date:`Beginn ab 40 Jahren (oder 10 J. vor dem Erkrankungsalter des Angehörigen)`,
+        badge: past ? 'Überfällig' : (startY ? `Ab ${startY}` : 'Ab 40 Jahren') });
     } else {
-      const startAge = 50;
-      items.push({ status: age && age >= 50 ? 'red' : 'orange', title:'Koloskopie – Erstscreening', date:'GKV-Leistung ab 50 Jahren (Männer ab 50, Frauen ab 55)', badge: age && age >= 50 ? 'Überfällig' : `Ab ${d.byear ? parseInt(d.byear)+startAge : '50 Jahren'}` });
+      // Normalbevölkerung: GKV ab 50 (m) / 55 (f)
+      const startAge = (d.sex === 'f') ? 55 : 50;
+      const startY   = d.byear ? parseInt(d.byear) + startAge : null;
+      const past     = age && age >= startAge;
+      items.push({ status: past ? 'red' : 'orange',
+        title:'Koloskopie – Erstscreening',
+        date:`GKV-Leistung ab ${startAge} Jahren (zweimal im Leben kostenfrei)`,
+        badge: past ? 'Überfällig' : (startY ? `Ab ${startY}` : `Ab ${startAge} Jahren`) });
     }
   } else {
-    // Done – compute next
-    let interval, note;
+    // Koloskopie bereits durchgeführt
+    const koloYear = parseYear(d.kolo_date);
+
+    // Lynch → immer 2 Jahre, unabhängig vom Befund
     if (d.fam === 'lynch') {
-      interval = 2; note = 'Lynch-Syndrom: alle 1–2 Jahre (S3-Leitlinie KRK 2023)';
-    } else if (d.kolo === 'polyp_high') {
-      interval = 3; note = 'Hochrisiko-Polypen: Kontrolle nach 3 Jahren';
-    } else if (d.kolo === 'polyp_low') {
-      interval = 5; note = 'Low-risk Adenome: Kontrolle nach 5 Jahren';
-    } else {
-      interval = 10; note = 'Unauffällig: nächste Kontrolle in 10 Jahren';
+      if (koloYear) {
+        const next = koloYear + 2;
+        items.push({ status: statusForYear(next),
+          title:'Nächste Koloskopie – Lynch-Surveillance',
+          date:`Letzte: ${d.kolo_date} · Intervall 1–2 Jahre (S3-Leitlinie KRK 2023)`,
+          badge: labelForYear(next) + ` (${next})` });
+      } else {
+        items.push({ status:'orange', title:'Koloskopie – Lynch-Surveillance',
+          date:'Datum der letzten Koloskopie nicht angegeben',
+          badge:'Termin klären' });
+      }
     }
-    const nextYear = addYears(koloYear, interval);
-    const st = statusForDate(nextYear);
-    items.push({ status: st, title:'Nächste Koloskopie', date:`Letzte: ${d.kolo_date} · ${note}`, badge: labelForDate(nextYear) + ` (${nextYear})` });
+
+    // Befund: Normale Koloskopie
+    else if (d.kolo_result === 'none') {
+      if (koloYear) {
+        const interval = (d.fam === '1st_60minus' || d.fam === 'multi') ? 5 : 10;
+        const note     = interval === 5
+          ? 'Erhöhtes familiäres Risiko: Kontrolle alle 5 Jahre'
+          : 'Normalbefund: nächste Kontrolle in 10 Jahren (S3-Leitlinie KRK 2023)';
+        const next = koloYear + interval;
+        items.push({ status: statusForYear(next),
+          title:'Nächste Koloskopie',
+          date:`Letzte: ${d.kolo_date} · ${note}`,
+          badge: labelForYear(next) + ` (${next})` });
+      }
+    }
+
+    // Befund: Adenome
+    else if (d.kolo_result === 'polyp') {
+      let interval, note;
+      if (d.polyp_risk === 'low') {
+        interval = 5;
+        note = 'Niedriges Risiko (1–2 Adenome < 10 mm, tubulär): Kontrolle nach 5 Jahren';
+      } else if (d.polyp_risk === 'high') {
+        interval = 3;
+        note = 'Hohes Risiko (≥ 3 Adenome oder ≥ 10 mm oder villös/hochgradig): Kontrolle nach 3 Jahren';
+      } else {
+        interval = 3;
+        note = 'Risikoklasse unbekannt: sicherheitshalber Kontrolle nach 3 Jahren';
+      }
+      if (koloYear) {
+        const next = koloYear + interval;
+        items.push({ status: statusForYear(next),
+          title:'Polypenkontroll-Koloskopie',
+          date:`Letzte: ${d.kolo_date} · ${note}`,
+          badge: labelForYear(next) + ` (${next})` });
+      } else {
+        items.push({ status:'orange',
+          title:'Polypenkontroll-Koloskopie',
+          date: note + ' – bitte Datum der letzten Koloskopie eintragen',
+          badge:'Datum ergänzen' });
+      }
+    }
+
+    // Befund: SSA/P
+    else if (d.kolo_result === 'serrated') {
+      let interval, note;
+      if (d.ssa_size === 'large') {
+        interval = 3;
+        note = 'SSA/P ≥ 10 mm oder mit Dysplasie: Kontrolle nach 3 Jahren';
+      } else {
+        interval = 5;
+        note = 'SSA/P < 10 mm: Kontrolle nach 5 Jahren';
+      }
+      if (koloYear) {
+        const next = koloYear + interval;
+        items.push({ status: statusForYear(next),
+          title:'Kontrolle – Sessiles serratiertes Adenom',
+          date:`Letzte: ${d.kolo_date} · ${note}`,
+          badge: labelForYear(next) + ` (${next})` });
+      } else {
+        items.push({ status:'orange',
+          title:'Kontrolle – Sessiles serratiertes Adenom',
+          date: note + ' – bitte Datum der letzten Koloskopie eintragen',
+          badge:'Datum ergänzen' });
+      }
+    }
+
+    // Befund: CED
+    else if (d.kolo_result === 'ibd') {
+      if (d.ibd_dur === 'ge8') {
+        items.push({ status:'orange',
+          title:'Surveillance-Koloskopie bei CED',
+          date:'CED ≥ 8 Jahre: jährliche bis 2-jährliche Surveillance empfohlen (S3-Leitlinie KRK 2023)',
+          badge:'Jährlich' });
+      } else {
+        items.push({ status:'green',
+          title:'Surveillance-Koloskopie bei CED',
+          date:'CED < 8 Jahre: Surveillance ab dem 8. Erkrankungsjahr',
+          badge:'Noch nicht fällig' });
+      }
+    }
   }
 
-  // — H. pylori
+  // ── H. pylori ────────────────────────────────────────────────────────────
   if (d.hp === 'none' || d.hp === '') {
-    if (d.gastric_fam === 'yes' || (age && age >= 40)) {
-      items.push({ status:'orange', title:'H. pylori – Screening empfohlen', date:'Erstgradigverwandte mit Magenkarzinom oder Alter ≥ 40 J.', badge:'Noch nicht erfolgt' });
+    if (d.gastric_fam === 'yes') {
+      items.push({ status:'red',
+        title:'H. pylori – Screening empfohlen',
+        date:'Erstgradigverwandte mit Magenkarzinom: Test-and-Treat laut Leitlinie',
+        badge:'Noch nicht erfolgt' });
+    } else if (age && age >= 40) {
+      items.push({ status:'orange',
+        title:'H. pylori – Screening erwägen',
+        date:'Ab 40 Jahren: H. pylori-Test sinnvoll (¹³C-Atemtest oder Stuhlantigen)',
+        badge:'Noch nicht erfolgt' });
     }
   } else if (d.hp === 'pos' || d.hp === 'treat') {
-    items.push({ status:'red', title:'H. pylori – Eradikation + Kontrolle', date:'Eradikationstherapie einleiten, ¹³C-Atemtest nach 4 Wochen', badge:'Dringend' });
+    items.push({ status:'red',
+      title:'H. pylori – Eradikation + Kontrolle',
+      date:'Eradikationstherapie einleiten, Eradikationskontrolle (¹³C-Atemtest) nach ≥ 4 Wochen',
+      badge:'Dringend' });
   } else if (d.hp === 'erad') {
-    items.push({ status:'green', title:'H. pylori – Eradikation erfolgreich', date:'Kontrolle negativ – kein weiterer Handlungsbedarf', badge:'Erledigt ✓' });
+    items.push({ status:'green',
+      title:'H. pylori – Eradikation erfolgreich',
+      date:'Eradikationskontrolle negativ – kein weiterer Handlungsbedarf',
+      badge:'Erledigt ✓' });
   }
 
-  // — Lynch / ASS
+  // ── Lynch / ASS ──────────────────────────────────────────────────────────
   if (d.lynch === 'yes_no_ass') {
-    items.push({ status:'red', title:'ASS 100 mg – Beginn empfohlen', date:'Lynch-Syndrom: ASS 100 mg/Tag zur KRK-Prävention (CAPP3 2025)', badge:'Noch nicht begonnen' });
+    items.push({ status:'red',
+      title:'ASS 100 mg – Beginn empfohlen',
+      date:'Lynch-Syndrom: ASS 100 mg/Tag zur KRK-Prävention (CAPP3 2025, Lancet)',
+      badge:'Noch nicht begonnen' });
   } else if (d.lynch === 'yes_ass') {
-    items.push({ status:'green', title:'ASS 100 mg – wird eingenommen', date:'Lynch-Syndrom: fortführen, min. 2 Jahre (CAPP3 2025)', badge:'Laufend ✓' });
+    items.push({ status:'green',
+      title:'ASS 100 mg – wird eingenommen',
+      date:'Lynch-Syndrom: fortführen (min. 2 Jahre, CAPP3 2025)',
+      badge:'Laufend ✓' });
   }
 
-  // — Darmkrebs-Vorsorge GKV (Stuhltest)
-  if (!d.kolo_date && d.kolo !== 'none_yet' && age && age >= 50 && age < 55) {
-    items.push({ status:'orange', title:'Stuhlbluttest (FIT) als Einstieg', date:'Ab 50 Jahren: jährlicher FIT als Alternative bis zur Koloskopie', badge:'Jährlich' });
-  }
-
-  // — Pankreatitis Nachsorge
+  // ── Pankreatitis ─────────────────────────────────────────────────────────
   if (d.pankreas) {
-    items.push({ status:'orange', title:'Pankreatitis-Nachsorge', date:'DGVS S3 2024: strukturierte Kontrolle empfohlen', badge:'Nächsten Termin vereinbaren' });
+    items.push({ status:'orange',
+      title:'Pankreatitis-Nachsorge',
+      date:'DGVS S3 2024: strukturierte Verlaufskontrolle empfohlen',
+      badge:'Nächsten Termin vereinbaren' });
   }
 
-  // — Render
+  // ── Render items ─────────────────────────────────────────────────────────
   const listEl = document.getElementById('vorsorge-list');
   if (items.length === 0) {
     listEl.innerHTML = '<div class="vorsorge-item green"><div class="status-dot"></div><div><div class="item-title">Keine akuten Handlungsempfehlungen</div><div class="item-date">Weiter so – regelmäßige Kontrollen laut Ihrem Arzt</div></div></div>';
@@ -666,17 +889,18 @@ function showPass() {
     `).join('');
   }
 
-  // — Risk profile chips
+  // ── Risk chips ────────────────────────────────────────────────────────────
   const risks = [];
-  if (d.fam && d.fam !== 'none') risks.push('Familiäre KRK-Belastung');
-  if (d.fam === 'lynch') risks.push('Lynch-Syndrom');
-  if (d.hp === 'pos') risks.push('H. pylori positiv');
-  if (d.gastric_fam === 'yes') risks.push('Magenkarzinom-Familienanamnese');
-  if (d.ced) risks.push('CED');
-  if (d.masld) risks.push('MASLD');
-  if (d.pankreas) risks.push('Pankreatitis');
-  if (d.uebergewicht) risks.push('Adipositas');
-  if (d.rauchen) risks.push('Rauchen');
+  if (d.fam === 'lynch')         risks.push('Lynch-Syndrom');
+  else if (d.fam && d.fam !== 'none') risks.push('Familiäre KRK-Belastung');
+  if (d.gastric_fam === 'yes')   risks.push('Magenkarzinom-Familienanamnese');
+  if (d.hp === 'pos')            risks.push('H. pylori positiv');
+  if (d.kolo_result === 'polyp' && d.polyp_risk === 'high') risks.push('Hochrisiko-Adenome');
+  if (d.kolo_result === 'ibd')   risks.push('CED');
+  if (d.masld)                   risks.push('MASLD');
+  if (d.pankreas)                risks.push('Pankreatitis');
+  if (d.uebergewicht)            risks.push('Adipositas');
+  if (d.rauchen)                 risks.push('Rauchen');
 
   const riskEl = document.getElementById('risk-list');
   if (risks.length === 0) {
@@ -690,13 +914,112 @@ function showPass() {
   goStep('pass');
 }
 
-// ── Init ────────────────────────────────────────────────────────────────────
+// ── URL param prefill ────────────────────────────────────────────────────────
+function getUrlParams() {
+  const p = new URLSearchParams(window.location.search);
+  return {
+    kolo_done:   p.get('kolo_done'),
+    kolo_result: p.get('kolo_result'),
+    polyp_risk:  p.get('polyp_risk'),
+    ssa_size:    p.get('ssa_size'),
+    ibd_dur:     p.get('ibd_dur'),
+    year:        p.get('year'),
+  };
+}
+
+function hasKoloParams(params) {
+  return params.kolo_done || params.kolo_result || params.polyp_risk ||
+         params.ssa_size  || params.ibd_dur     || params.year;
+}
+
+function applyUrlParams(params) {
+  if (params.kolo_done) {
+    const r = document.querySelector(`input[name="kolo_done"][value="${params.kolo_done}"]`);
+    if (r) r.checked = true;
+  }
+  if (params.kolo_result) {
+    const r = document.querySelector(`input[name="kolo_result"][value="${params.kolo_result}"]`);
+    if (r) r.checked = true;
+  }
+  if (params.polyp_risk) {
+    const r = document.querySelector(`input[name="polyp_risk"][value="${params.polyp_risk}"]`);
+    if (r) r.checked = true;
+  }
+  if (params.ssa_size) {
+    const r = document.querySelector(`input[name="ssa_size"][value="${params.ssa_size}"]`);
+    if (r) r.checked = true;
+  }
+  if (params.ibd_dur) {
+    const r = document.querySelector(`input[name="ibd_dur"][value="${params.ibd_dur}"]`);
+    if (r) r.checked = true;
+  }
+  if (params.year) {
+    document.getElementById('kolo_date').value = params.year;
+  }
+  // If kolo_done not explicitly set but other kolo params present, default to 'yes'
+  if (!params.kolo_done && (params.kolo_result || params.year)) {
+    const r = document.querySelector('input[name="kolo_done"][value="yes"]');
+    if (r) r.checked = true;
+  }
+  // Re-trigger conditional UI
+  onKoloDoneChange();
+  onKoloResultChange();
+}
+
+function buildBefundText(params) {
+  let text = '';
+  const result = params.kolo_result;
+  const risk   = params.polyp_risk;
+  const size   = params.ssa_size;
+
+  if (result === 'none') {
+    text = 'Normalbefund – keine Polypen';
+  } else if (result === 'polyp' && risk === 'low') {
+    text = 'Adenom(e) entfernt – niedriges Risiko';
+  } else if (result === 'polyp' && risk === 'high') {
+    text = 'Adenom(e) entfernt – erhöhtes Risiko';
+  } else if (result === 'polyp') {
+    text = 'Adenom(e) entfernt';
+  } else if (result === 'serrated' && size === 'small') {
+    text = 'Sessiles serratiertes Adenom < 10 mm';
+  } else if (result === 'serrated' && size === 'large') {
+    text = 'Sessiles serratiertes Adenom ≥ 10 mm / mit Dysplasie';
+  } else if (result === 'serrated') {
+    text = 'Sessiles serratiertes Adenom';
+  } else if (result === 'ibd') {
+    text = 'CED-Befund';
+  }
+
+  if (params.year) {
+    text += (text ? ' · ' : '') + 'Koloskopie: ' + params.year;
+  }
+  return text;
+}
+
+function showBefundBanner(params) {
+  const banner = document.getElementById('befund-banner');
+  const textEl = document.getElementById('befund-text');
+  const text = buildBefundText(params);
+  textEl.textContent = text;
+  banner.style.display = 'block';
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = getUrlParams();
+  const koloFromUrl = hasKoloParams(urlParams);
+
   const saved = load();
   if (saved) {
     restore(saved);
-    // If they've already completed, show pass directly
-    if (saved.byear && saved.kolo) showPass();
+  }
+
+  if (koloFromUrl) {
+    applyUrlParams(urlParams);
+    showBefundBanner(urlParams);
+    goStep(2);
+  } else if (saved) {
+    if (saved.byear && (saved.kolo_done || saved.kolo_result)) showPass();
   }
 });
 </script>
