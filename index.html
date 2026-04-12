@@ -909,9 +909,31 @@ function showPass() {
   if (risks.length === 0) {
     riskEl.innerHTML = '<div class="vorsorge-item green"><div class="status-dot"></div><div><div class="item-title">Kein erhöhtes Risiko angegeben</div></div></div>';
   } else {
-    riskEl.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.5rem 0">${
+    let html = `<div style="display:flex;flex-wrap:wrap;gap:0.5rem;padding:0.5rem 0">${
       risks.map(r => `<span style="background:var(--teal-light);color:var(--teal-dark);border-radius:20px;padding:0.3rem 0.8rem;font-size:0.82rem;font-weight:600">${r}</span>`).join('')
     }</div>`;
+
+    // Individuelle Hinweise bei Adipositas und/oder Diabetes
+    const hints = [];
+    if (d.uebergewicht) {
+      hints.push(`<div style="display:flex;gap:0.7rem;align-items:flex-start;background:#FFF3E0;border-left:4px solid #E07B00;border-radius:8px;padding:0.75rem 1rem;margin-top:0.5rem;font-size:0.88rem;line-height:1.5">
+        <span style="font-size:1.2rem;margin-top:0.1rem">&#9888;&#65039;</span>
+        <div><strong style="color:#E07B00">Adipositas erhöht das Darmkrebsrisiko.</strong><br>
+        Sprechen Sie mit Ihrer Ärztin / Ihrem Arzt über eine <strong>frühere Darmspiegelung</strong> – auch schon vor dem 50. Lebensjahr kann diese sinnvoll sein.</div>
+      </div>`);
+    }
+    if (d.diabetes) {
+      hints.push(`<div style="display:flex;gap:0.7rem;align-items:flex-start;background:#E8F4F5;border-left:4px solid #01696F;border-radius:8px;padding:0.75rem 1rem;margin-top:0.5rem;font-size:0.88rem;line-height:1.5">
+        <span style="font-size:1.2rem;margin-top:0.1rem">&#9432;</span>
+        <div><strong style="color:#01696F">Typ-2-Diabetes erhöht das Darmkrebsrisiko.</strong><br>
+        Sprechen Sie mit Ihrer Ärztin / Ihrem Arzt über eine <strong>frühere Darmspiegelung</strong> – auch schon vor dem 50. Lebensjahr kann diese sinnvoll sein.</div>
+      </div>`);
+    }
+    if (hints.length > 0) {
+      html += hints.join('');
+    }
+
+    riskEl.innerHTML = html;
   }
 
   goStep('pass');
