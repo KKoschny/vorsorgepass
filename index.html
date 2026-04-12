@@ -544,8 +544,9 @@
       <div class="card-title">⚠️ Weitere Risikofaktoren</div>
       <div class="check-group">
         <label><input type="checkbox" id="masld"/> MASLD / Fettlebererkrankung bekannt</label>
+        <label><input type="checkbox" id="diabetes"/> Typ-2-Diabetes bekannt</label>
         <label><input type="checkbox" id="pankreas"/> Pankreatitis in der Vorgeschichte</label>
-        <label><input type="checkbox" id="uebergewicht"/> Übergewicht (BMI > 30)</label>
+        <label><input type="checkbox" id="uebergewicht"/> Übergewicht / Adipositas (BMI &gt; 30)</label>
         <label><input type="checkbox" id="rauchen"/> Aktueller Raucher / Raucherin</label>
       </div>
     </div>
@@ -620,6 +621,7 @@ function save() {
     hp:           document.querySelector('input[name="hp"]:checked')?.value || '',
     lynch:        document.querySelector('input[name="lynch"]:checked')?.value || '',
     masld:        document.getElementById('masld').checked,
+    diabetes:     document.getElementById('diabetes').checked,
     pankreas:     document.getElementById('pankreas').checked,
     uebergewicht: document.getElementById('uebergewicht').checked,
     rauchen:      document.getElementById('rauchen').checked,
@@ -647,7 +649,7 @@ function restore(d) {
     }
   });
   if (d.kolo_date) document.getElementById('kolo_date').value = d.kolo_date;
-  ['masld','pankreas','uebergewicht','rauchen'].forEach(id => {
+  ['masld','diabetes','pankreas','uebergewicht','rauchen'].forEach(id => {
     document.getElementById(id).checked = d[id] || false;
   });
   // Re-trigger conditional UI
@@ -897,7 +899,8 @@ function showPass() {
   if (d.hp === 'pos')            risks.push('H. pylori positiv');
   if (d.kolo_result === 'polyp' && d.polyp_risk === 'high') risks.push('Hochrisiko-Adenome');
   if (d.kolo_result === 'ibd')   risks.push('CED');
-  if (d.masld)                   risks.push('MASLD');
+  if (d.masld)                   risks.push('MASLD / Fettleber');
+  if (d.diabetes)                risks.push('Typ-2-Diabetes');
   if (d.pankreas)                risks.push('Pankreatitis');
   if (d.uebergewicht)            risks.push('Adipositas');
   if (d.rauchen)                 risks.push('Rauchen');
