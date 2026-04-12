@@ -504,7 +504,8 @@
     </div>
 
     <div class="card">
-      <div class="card-title">🦠 H. pylori</div>
+      <div class="card-title">🦠 H. pylori (Magenkeim)</div>
+      <div class="card-hint"><em>H. pylori</em> ist ein Bakterium, das die Magenschleimhaut besiedeln kann – oft ohne Beschwerden. Es erhöht das Risiko für Magengeschwüre und Magenkrebs. Ein einfacher Atemtest oder Stuhltest kann zeigen, ob Sie betroffen sind. Falls ja, lässt er sich mit Antibiotika gut behandeln.</div>
       <div class="radio-group">
         <label><input type="radio" name="hp" value="none"/> Nie getestet</label>
         <label><input type="radio" name="hp" value="neg"/> Negativ getestet</label>
@@ -516,6 +517,7 @@
 
     <div class="card">
       <div class="card-title">💊 Lynch-Syndrom &amp; ASS</div>
+      <div class="card-hint">Das Lynch-Syndrom ist eine erbliche Veranlagung, die das Risiko für Darm-, Gebärmutter- und andere Krebsarten deutlich erhöht. Es wird durch einen Gentest nachgewiesen – meist wenn in der Familie mehrere Personen an Krebs erkrankt sind. Falls Sie nicht wissen, ob das auf Sie zutrifft: Ihr Arzt kann das klären.</div>
       <div class="radio-group">
         <label><input type="radio" name="lynch" value="no"/> Kein Lynch-Syndrom</label>
         <label><input type="radio" name="lynch" value="yes_no_ass"/> Lynch-Syndrom bestätigt – ASS noch nicht begonnen</label>
@@ -572,10 +574,12 @@
 
     <button class="edit-btn" onclick="goStep(1)">✎ Angaben bearbeiten</button>
 
+    <div style="background:#FFF8E1;border:2px solid #D4A800;border-radius:10px;padding:1rem 1.2rem;margin:1.2rem 0;">
+      <div style="font-weight:700;color:#6B4F00;margin-bottom:0.4rem;">⚠️ Pilotprojekt – bitte beachten</div>
+      <p style="font-size:0.88rem;color:#6B4F00;margin:0;">Dieser Vorsorgepass ist ein Pilotprojekt und ersetzt <strong>keine ärztliche Beratung</strong>. Die Empfehlungen dienen als erste Orientierung auf Basis aktueller Leitlinien – Ihre individuelle Situation kann davon abweichen. <strong>Bitte sprechen Sie alle Ergebnisse mit Ihrer Ärztin / Ihrem Arzt durch.</strong></p>
+    </div>
     <p class="disclaimer">
-      Diese App ersetzt keine ärztliche Beratung. Die Empfehlungen basieren auf den aktuellen
-      Leitlinien (S3-Leitlinie KRK 2023, Maastricht VI 2022, CAPP3 2025)
-      und sind als Orientierung gedacht. Sprechen Sie Ihre individuelle Vorsorge mit Ihrer Ärztin / Ihrem Arzt ab.<br><br>
+      Empfehlungen basieren auf: S3-Leitlinie KRK 2023, Maastricht VI 2022, CAPP3 2025.<br>
       Dr. med. Kristin Koschny · Gastroenterologie · GFGB-Jahrestagung 2026
     </p>
   </div>
